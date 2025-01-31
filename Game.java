@@ -36,6 +36,17 @@ public class Game {
         }
     }
 
+    public char selectPlayerTwoMove(int row, int col) {
+        int move = rand.nextInt(3);
+        int y = check(moves[move], row, col);
+        while (y != 1) {
+            move = rand.nextInt(3);
+            y = check(moves[move], row, col);
+        }
+        System.out.println("Player 2: " + moves[move]);
+        return moves[move];
+    }
+
     public int goodMove(char move, int row, int col) {
         int ans = check(move, row, col);
         if (ans != 1) {
@@ -93,25 +104,15 @@ public class Game {
 
     }
 
+    //Enemies moves
     public int possibleMove(char move, int row, int col) {
-        if (col % 2 == 0 && row == 7) {
+        if (col % 2 == 1 && row == 7) {
             return 0;
         }
-        if (col % 2 == 0 && row == 7) {
+        if (row % 2 == 1 && col == 7) {
             return 0;
         }
         return 1;
-    }
-
-    public char selectPlayerTwoMove(int row, int col) {
-        int move = rand.nextInt(3);
-        int y = check(moves[move], row, col);
-        while (y != 1) {
-            move = rand.nextInt(3);
-            y = check(moves[move], row, col);
-        }
-
-        return moves[move];
     }
 
     public int selectPlayerOneMove(int row, int col) {
@@ -121,14 +122,15 @@ public class Game {
         // Making a move not outside the board
         while (ans != 1) {
             l++;
-            if (l > 3) {
+            if (l > 2) {
                 System.out.println("Went out of bounds of L");
-                return -1;
+                // No good moves
+                return l-1;
             }
             move = moves[l];
             ans = goodMove(move, row, col);
         }
-
+        System.out.println("Player 1: " + moves[l]);
         return l; // L
     }
 
